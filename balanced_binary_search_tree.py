@@ -66,19 +66,18 @@ class Tree(object):
         return self.check_balance_run(self.root, [0, 0])
 
     def check_balance_run(self, node, control_list):
-        if (node.right_node is not None) and (node.left_node is not None):
-            control_list[0] = control_list[0] + 1
-            control_list[1] = control_list[1] + 1
-            control_list = self.check_balance_run(node.left_node, control_list)
-            control_list = self.check_balance_run(node.right_node, control_list)
-            return control_list
-        elif node.right_node is not None:
-            control_list[1] = control_list[1] + 1
-            control_list = self.check_balance_run(node.right_node, control_list)
-            return control_list
-        elif node.left_node is not None:
-            control_list[0] = control_list[0] + 1
-            control_list = self.check_balance_run(node.left_node, control_list)
-            return control_list
+        if (node.right_node is not None) or (node.left_node is not None):
+            if (node.right_node is not None) and (node.left_node is not None):
+                control_list[0] = control_list[0] + 1
+                control_list[1] = control_list[1] + 1
+                control_list = self.check_balance_run(node.left_node, control_list)
+                control_list = self.check_balance_run(node.right_node, control_list)
+                return control_list
+            elif node.right_node is not None:
+                control_list[1] = control_list[1] + 1
+                return self.check_balance_run(node.right_node, control_list)
+            else:
+                control_list[0] = control_list[0] + 1
+                return self.check_balance_run(node.left_node, control_list)
         else:
             return control_list
