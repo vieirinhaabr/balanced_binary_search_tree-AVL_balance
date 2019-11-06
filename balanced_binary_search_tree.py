@@ -63,7 +63,18 @@ class Tree(object):
         self.in_order_run(node.right_node)
 
     def check_balance(self):
-        return self.check_balance_run(self.root, [0, 0])
+        if self.root is not None:
+            check = self.check_balance_run(self.root, [0, 0])
+            balance = check[0] - check[1]
+            print(balance)
+            if balance > 1:
+                print("\nNeed rotate to -> Right")
+            elif balance < -1:
+                print("\nNeed rotate to -> Left")
+            else:
+                print("\nNo balance need!!!")
+        else:
+            print("\nNo node detected!!!")
 
     def check_balance_run(self, node, control_list):
         if (node.right_node is not None) or (node.left_node is not None):
@@ -75,9 +86,11 @@ class Tree(object):
                 return control_list
             elif node.right_node is not None:
                 control_list[1] = control_list[1] + 1
-                return self.check_balance_run(node.right_node, control_list)
+                self.check_balance_run(node.right_node, control_list)
+                return control_list
             else:
                 control_list[0] = control_list[0] + 1
-                return self.check_balance_run(node.left_node, control_list)
+                self.check_balance_run(node.left_node, control_list)
+                return control_list
         else:
             return control_list
