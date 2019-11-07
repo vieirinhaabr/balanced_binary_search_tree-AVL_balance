@@ -69,6 +69,8 @@ class Tree(object):
             print(balance)
             if balance > 1:
                 print("\nNeed rotate to -> Right")
+                self.rotate_right(self.root)
+                self.check_balance()
             elif balance < -1:
                 print("\nNeed rotate to -> Left")
             else:
@@ -94,3 +96,15 @@ class Tree(object):
                 return control_list
         else:
             return control_list
+
+    def rotate_right(self, node):
+        if node.left_node.right_node is None:
+            if node.info == self.root.info:
+                self.root = self.root.left_node
+                node.left_node = None
+                self.root.right_node = node
+            else:
+                temp = node.left_node
+                node.left_node = node.left_node.left_node
+                temp.left_node = None
+                node.right_node = temp
