@@ -1,3 +1,4 @@
+
 <p align="center">
   <img width="200" height="200" style="align=center;" src="https://ssmic.com/UploadedFiles/images/transparent%20tree.png">
 </p>
@@ -25,7 +26,20 @@ I will explain step by step what this code do to balance the Tree:
     <br>
 	<li> After all Nodes inserted, Tree will looks how this: </li>
 	<p align="center">
-	<img src="https://i.ibb.co/WVXp9zR/Balanced-Tree-Step-01.png" border="0">
+	<img src="https://i.ibb.co/Mn0RsZz/AVL-Balanced-Tree-Step-01.png" border="0">
+	<p align="center">Ok, how I now the balance??</p>
+	</p>
+	<li>Is simple to understand, we will score to know if is balance, and if isn't what side is unbalanced:</li>
+	<ul>
+	<li>Since the end nodes have no subsequent nodes, start with the value 0</li>
+	<li> A left node have +1 value (unitary)</li>
+	<li> A right node have -1 value (unitary)</li>
+	<li>Whatever if a node have right and left Node the result is 0 => Equilibrated</li>
+	</ul>
+	<li>Now you now how its made the check of balance (same how this code) we can check balance thogether:</li>
+	<p align="center">
+	<img src="https://i.ibb.co/B4tDwYX/AVL-Balanced-Tree-Step-02-1.png" border="0">
+	<p align="center">How you can see, result in ''-3'', how is negative have more nodes on right side than left, need rotate to left (if result is positive, will be have more nodes on left).</p>
 	</p>
 	<li>Now we insert all Nodes and Tree is balanced, it will improve the search :D</li>
   </ul>
