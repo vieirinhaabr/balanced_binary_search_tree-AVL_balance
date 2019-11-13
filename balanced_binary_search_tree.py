@@ -128,15 +128,16 @@ class Tree(object):
                 if balance < -1:
                     balance = self.bst_root_left(balance)
             if balance < -1:
-                if self.root.right_node.right_node is not None:
-                    if self.root.right_node.right_node.left_node is None:
-                        temp = self.root.right_node
-                        self.root.right_node = self.root.right_node.right_node
-                        temp.right_node = None
-                        self.root.right_node.left_node = temp
-                        balance = balance + 1
-                        if balance < -1:
-                            balance = self.bst_root_left(balance)
+                if self.root.right_node is not None:
+                    if self.root.right_node.right_node is not None:
+                        if self.root.right_node.right_node.left_node is None:
+                            temp = self.root.right_node
+                            self.root.right_node = self.root.right_node.right_node
+                            temp.right_node = None
+                            self.root.right_node.left_node = temp
+                            balance = balance + 1
+                            if balance < -1:
+                                balance = self.bst_root_left(balance)
         if balance < -1:
             if self.root.left_node is not None:
                 if self.root.left_node.right_node is not None:
@@ -151,6 +152,8 @@ class Tree(object):
         return balance
 
     def bst_rotate_left(self, node, balance):
+        if node is None:
+            return balance
         if node.right_node is not None:
             if node.right_node.right_node is not None:
                 if node.right_node.right_node.left_node is None:
@@ -189,15 +192,16 @@ class Tree(object):
                 if balance > 1:
                     balance = self.bst_root_right(balance)
             if balance > 1:
-                if self.root.left_node.left_node is not None:
-                    if self.root.left_node.left_node.right_node is None:
-                        temp = self.root.left_node
-                        self.root.left_node = self.root.left_node.left_node
-                        temp.left_node = None
-                        self.root.left_node.right_node = temp
-                        balance = balance - 1
-                        if balance > 1:
-                            balance = self.bst_root_right(balance)
+                if self.root.left_node is not None:
+                    if self.root.left_node.left_node is not None:
+                        if self.root.left_node.left_node.right_node is None:
+                            temp = self.root.left_node
+                            self.root.left_node = self.root.left_node.left_node
+                            temp.left_node = None
+                            self.root.left_node.right_node = temp
+                            balance = balance - 1
+                            if balance > 1:
+                                balance = self.bst_root_right(balance)
         if balance < -1:
             if self.root.right_node is not None:
                 if self.root.right_node.left_node is not None:
@@ -212,6 +216,8 @@ class Tree(object):
         return balance
 
     def bst_rotate_right(self, node, balance):
+        if node is None:
+            return balance
         if node.left_node is not None:
             if node.left_node.left_node is not None:
                 if node.left_node.left_node.right_node is None:
