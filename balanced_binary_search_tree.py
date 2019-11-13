@@ -75,7 +75,8 @@ class Tree(object):
                 if balance < -1:
                     balance = self.bst_rotate_left(self.root.right_node, balance)
                     if balance < -1:
-                        balance = self.bst_rotate_left(self.root.left_node, balance)
+                        print("balance using left side")
+                        #balance = self.bst_rotate_left(self.root.left_node, balance)
                         if balance < -1:
                             print("need force balance")
 
@@ -117,7 +118,7 @@ class Tree(object):
                         self.root.right_node.left_node = temp
                         balance = balance + 1
                         if balance < -1:
-                            self.bstrl(balance)
+                            balance = self.bstrl(balance)
         if balance < -1:
             if self.root.left_node is not None:
                 if self.root.left_node.right_node is not None:
@@ -128,5 +129,33 @@ class Tree(object):
                         self.root.left_node.left_node = temp
                         balance = balance + 1
                         if balance < -1:
-                            self.bstrl(balance)
+                            balance = self.bstrl(balance)
+        return balance
+
+    def bst_rotate_left(self, node, balance):
+        if node.right_node is not None:
+            if node.right_node.right_node is not None:
+                if node.right_node.right_node.left_node is None:
+                    temp = node.right_node
+                    node.right_node = node.right_node.right_node
+                    temp.right_node = None
+                    node.right_node.left_node = temp
+                    balance = balance + 1
+                    if balance < -1:
+                        balance = bst_rotate_left(node, balance)
+            if balance < -1:
+                balance = bst_rotate_left(node.right_node, balance)
+        if balance < -1:
+            if node.left_node is not None:
+                if node.left_node.right_node is not None:
+                    if node.left_node.right_node.left_node is None:
+                        temp = node.left_node
+                        node.left_node = node.left_node.right_node
+                        temp.right_node = None
+                        node.left_node.left_node = temp
+                        balance = balance + 1
+                        if balance < -1:
+                            balance = bst_rotate_left(node, balance)
+                if balance < -1:
+                    balance = bst_rotate_left(node.left_node, balance)
         return balance
