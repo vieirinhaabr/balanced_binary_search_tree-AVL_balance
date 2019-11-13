@@ -66,41 +66,18 @@ class Tree(object):
         if self.root is not None:
             check = self.verify_balance(self.root, [0, 0])
             balance = check[0] - check[1]
-            print(balance)
+            print(balance, "\n")
             if balance > 1:
                 print("\nNeed rotate to -> Right")
             elif balance < -1:
                 print("\nNeed rotate to -> Left")
-                if self.root.right_node is None:
-                    rotate_left(self, self.root.left_node)
-                else:
-                    if self.root.right_node.left_node is None:
-                        temp = self.root
-                        self.root = self.root.right_node
-                        temp.right_node = None
-                        self.root.left_node = temp
-                    else:
-                        if self.root.right_node.right_node is not None:
-                            if self.root.right_node.right_node.left_node is None:
-                                temp = self.root.right_node
-                                self.root.right_node = self.root.right_node.right_node
-                                temp.right_node = None
-                                self.root.left_node = temp
-                            else:
-                                print("method by sub tree")
-                                """result = rotate_left(self, self.root.right_node)
-                                if result:
-                                    result = method 1 left side
-                                    if result:
-                                        print("cant balance")
-                                    else:
-                                        print("balanced by method 1, left side")
-                                else:
-                                    print("balanced by method 1, right side")"""
-            else:
-                print("\nNo balance need!!!")
-        else:
-            print("\nNo node detected!!!")
+                balance = self.bst_root_left(balance)
+                if balance < -1:
+                    balance = self.bst_rotate_left(self.root.right_node, balance)
+                    if balance < -1:
+                        balance = self.bst_rotate_left(self.root.left_node, balance)
+                        if balance < -1:
+                            print("need force balance")
 
     def verify_balance(self, node, control_list):
         if (node.right_node is not None) or (node.left_node is not None):
@@ -121,29 +98,35 @@ class Tree(object):
         else:
             return control_list
 
-    def rotate_left(self, node):
-        if node.right_node is not None:
-            if node.right_node.right_node is not None:
-                if node.right_node.right_node.left_node is None:
-                    node.right_node.left_node = node.left_node
-                    node.left_node = node.right_node
-                    node.right_node = node.right_node.right_node
-                    node.left_node.right_node = None
-                    return False
-                else:
-                    result = self.rotate_left(node.right_node)
-                    if result:
-                        return self.rotate_left(node.left_node)
-                    else:
-                        return result
-            else:
-                if node.left_node is not None:
-                    return self.rotate_left(node.left_node)
-                else:
-                    return True
-        else:
-            if node.left_node is not None:
-                return self.rotate_left(node.left_node)
-            else:
-                return True
-
+    def bst_root_left(self, balance):
+        if self.root.right_node is not None:
+            if self.root.right_node.left_node is None:
+                temp = self.root
+                self.root = self.root.right_node
+                temp.right_node = None
+                self.root.left_node = temp
+                balance = balance + 1
+                if balance < -1:
+                    self.bstrl(balance)
+            if balance < -1:
+                if self.root.right_node.right_node is not None:
+                    if self.root.right_node.right_node.left_node is None:
+                        temp = self.root.right_node
+                        self.root.right_node = self.root.right_node.right_node
+                        temp.right_node = None
+                        self.root.right_node.left_node = temp
+                        balance = balance + 1
+                        if balance < -1:
+                            self.bstrl(balance)
+        if balance < -1:
+            if self.root.left_node is not None:
+                if self.root.left_node.right_node is not None:
+                    if self.root.left_node.right_node.left_node is None:
+                        temp = self.root.left_node
+                        self.root.left_node = self.root.left_node.right_node
+                        temp.right_node = None
+                        self.root.left_node.left_node = temp
+                        balance = balance + 1
+                        if balance < -1:
+                            self.bstrl(balance)
+        return balance
