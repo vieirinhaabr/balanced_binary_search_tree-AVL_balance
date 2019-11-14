@@ -1,4 +1,5 @@
 
+
 <p align="center">
   <img width="200" height="200" style="align=center;" src="https://ssmic.com/UploadedFiles/images/transparent%20tree.png">
 </p>
@@ -21,8 +22,8 @@ I use Python and this libs:
 
 I will explain step by step what this code do to balance the Tree:
   <ul>
-    I will insert some nodes, in this example I will insert these how a list -> [1000,1500,700,500,300,100,550,350,150,750,725,775,800,850,770,875], ok lets do it.
-    Different by the other balanced tree, in this case all Nodes will be inserted and only after this will be check the balance.
+    I will insert some nodes, in this example I will insert these how a list -> [1000, 1500, 700, 500, 300, 100, 550, 350, 150, 750, 725, 775, 800, 850, 770, 875], ok lets do it.
+    <br>Different by the other balanced tree, in this case all Nodes will be inserted and only after this will be check the balance.
     <br>
 	<li> After all Nodes inserted, Tree will looks how this: </li>
 	<p align="center">
@@ -36,11 +37,25 @@ I will explain step by step what this code do to balance the Tree:
 	<li> A right node have -1 value (unitary)</li>
 	<li>Whatever if a node have right and left Node the result is 0 => Equilibrated</li>
 	</ul>
+	<br>
 	<li>Now you now how its made the check of balance (same how this code) we can check balance thogether:</li>
 	<p align="center">
 	<img src="https://i.ibb.co/B4tDwYX/AVL-Balanced-Tree-Step-02-1.png" border="0">
 	<p align="center">How you can see, result in ''-3'', how is negative have more nodes on right side than left, need rotate to left (if result is positive, will be have more nodes on left).</p>
+	<li>Where we will rotate the Tree? It's a good question, code will check if the node in question have a right node to be rotated, and if haven't a left node.
+	<br>After made it we have this result of rotation:</li>
+	<p align="center">
+	<img src="https://i.ibb.co/K2kDCFC/AVL-Balanced-Tree-Step-03.png" border="0">
+	<p align="center">And its where we will rotate.</p>
 	</p>
+	<li>After rotate these positions we will have this result:</li>
+	<p align="center">
+	<img src="https://i.ibb.co/xL5ZDGh/AVL-Balanced-Tree-Step-04.png" border="0">
+	<p align="center">How you can see, its a simple rotation alghoritim and it will improve the search on Tree.</p>
+	<li>Let's check the balance now:</li>
+	<p align="center">
+	<img src="https://i.ibb.co/dr8kPM1/AVL-Balanced-Tree-Step-05.png" border="0">
+	<p align="center">Ok, how result now is between +2 and -2, it's balanced (it's balance if result on 0, +1 or -1)</p>
 	<li>Now we insert all Nodes and Tree is balanced, it will improve the search :D</li>
   </ul>
 <br>
