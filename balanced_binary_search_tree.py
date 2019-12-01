@@ -1,4 +1,4 @@
-#from drawtree import draw_bst
+from drawtree import draw_bst
 
 class Node(object):
     def __init__(self, info):
@@ -79,11 +79,11 @@ class Tree(object):
             print(balance, "\n")
             if balance > 1:
                 print("\nNeed rotate to -> Right")
-                balance = self.bst_rotate_right(balance)
+                balance = self.bst_root_right(balance)
                 if balance > 1:
                     balance = self.bst_rotate_right(self.root.left_node, balance)
                     if balance > 1:
-                        print("balance using left side")
+                        print("balance using right side")
                         balance = self.bst_rotate_right(self.root.right_node, balance)
                         if balance > 1:
                             print("Failure during balance !!!")
@@ -108,11 +108,11 @@ class Tree(object):
                 return control_list
             elif node.right_node is not None:
                 control_list[1] = control_list[1] + 1
-                self.verify_balance(node.right_node, control_list)
+                control_list = self.verify_balance(node.right_node, control_list)
                 return control_list
             else:
                 control_list[0] = control_list[0] + 1
-                self.verify_balance(node.left_node, control_list)
+                control_list = self.verify_balance(node.left_node, control_list)
                 return control_list
         else:
             return control_list
@@ -124,7 +124,7 @@ class Tree(object):
                 self.root = self.root.right_node
                 temp.right_node = None
                 self.root.left_node = temp
-                balance = balance + 1
+                balance = balance + 2
                 if balance < -1:
                     balance = self.bst_root_left(balance)
             if balance < -1:
@@ -135,7 +135,7 @@ class Tree(object):
                             self.root.right_node = self.root.right_node.right_node
                             temp.right_node = None
                             self.root.right_node.left_node = temp
-                            balance = balance + 1
+                            balance = balance + 2
                             if balance < -1:
                                 balance = self.bst_root_left(balance)
         if balance < -1:
@@ -146,7 +146,7 @@ class Tree(object):
                         self.root.left_node = self.root.left_node.right_node
                         temp.right_node = None
                         self.root.left_node.left_node = temp
-                        balance = balance + 1
+                        balance = balance + 2
                         if balance < -1:
                             balance = self.bst_root_left(balance)
         return balance
@@ -161,7 +161,8 @@ class Tree(object):
                     node.right_node = node.right_node.right_node
                     temp.right_node = None
                     node.right_node.left_node = temp
-                    balance = balance + 1
+                    balance = balance + 2
+                    print(balance,'/n')
                     if balance < -1:
                         balance = self.bst_rotate_left(node, balance)
             if balance < -1:
@@ -174,7 +175,7 @@ class Tree(object):
                         node.left_node = node.left_node.right_node
                         temp.right_node = None
                         node.left_node.left_node = temp
-                        balance = balance + 1
+                        balance = balance + 2
                         if balance < -1:
                             balance = self.bst_rotate_left(node, balance)
                 if balance < -1:
@@ -188,7 +189,7 @@ class Tree(object):
                 self.root = self.root.left_node
                 temp.left_node = None
                 self.root.right_node = temp
-                balance = balance - 1
+                balance = balance - 2
                 if balance > 1:
                     balance = self.bst_root_right(balance)
             if balance > 1:
@@ -199,10 +200,10 @@ class Tree(object):
                             self.root.left_node = self.root.left_node.left_node
                             temp.left_node = None
                             self.root.left_node.right_node = temp
-                            balance = balance - 1
+                            balance = balance - 2
                             if balance > 1:
                                 balance = self.bst_root_right(balance)
-        if balance < -1:
+        if balance > 1:
             if self.root.right_node is not None:
                 if self.root.right_node.left_node is not None:
                     if self.root.right_node.left_node.right_node is None:
@@ -210,8 +211,8 @@ class Tree(object):
                         self.root.right_node = self.root.right_node.left_node
                         temp.left_node = None
                         self.root.right_node.right_node = temp
-                        balance = balance + 1
-                        if balance < -1:
+                        balance = balance + 2
+                        if balance > 1:
                             balance = self.bst_root_right(balance)
         return balance
 
@@ -225,7 +226,7 @@ class Tree(object):
                     node.left_node = node.left_node.left_node
                     temp.left_node = None
                     node.left_node.right_node = temp
-                    balance = balance - 1
+                    balance = balance - 2
                     if balance > 1:
                         balance = self.bst_rotate_right(node, balance)
             if balance > 1:
@@ -238,9 +239,43 @@ class Tree(object):
                         node.right_node = node.right_node.left_node
                         temp.left_node = None
                         node.right_node.right_node = temp
-                        balance = balance - 1
+                        balance = balance - 2
                         if balance > 1:
                             balance = self.bst_rotate_right(node, balance)
                 if balance > 1:
                     balance = self.bst_rotate_right(node.left_node, balance)
         return balance
+
+    def print_tree(self):
+        self.tree_list = []
+        self.print_tree_run(self.root)
+
+        if len(self.tree_list) > 500:
+            print("Tree have more than 500 Elements, wasn't possible to print")
+        else:
+            draw_bst(self.tree_list)
+
+    def print_tree_run(self, node):
+        if node is None:
+            return
+
+        self.tree_list.append(node.info)
+        self.print_tree_run(node.left_node)
+        self.print_tree_run(node.right_node)
+
+    def search_node(self, search):
+        calls = self.search_node_run(self.root, search) + 1
+        print('    Was made ', calls, ' calls on this operation!')
+
+    def search_node_run(self, node, search):
+        if node is not None:
+            if node.info == search:
+                print('    Node ', node.info, ' find!!!')
+                return 0
+            elif node.info < search:
+                return 1 + self.search_node_run(node.right_node, search)
+            else:
+                return 1 + self.search_node_run(node.left_node, search)
+        else:
+            print('\n    Node is no present on Tree!!')
+            return 0
